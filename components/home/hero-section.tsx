@@ -38,7 +38,7 @@ const HeroSection = () => {
           variant={"link"}
         >
           <Link href="/#pricing" className="flex gap-2 items-center">
-            <span>Try QuickScribe</span>
+            <span>Try Summarize</span>
             <ArrowRight className="animate-pulse" />
           </Link>
         </Button>

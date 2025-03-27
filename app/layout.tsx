@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
+import {
+  ClerkProvider
+} from '@clerk/nextjs'
 
 export const metadata: Metadata = {
   title: "Quickscribe",
@@ -14,6 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider>
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
         <div className="relative flex min-h-screen flex-col">
@@ -23,5 +27,6 @@ export default function RootLayout({
         </div>
       </body>
     </html>
+    </ClerkProvider>
   );
 }
