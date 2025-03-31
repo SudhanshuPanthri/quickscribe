@@ -16,8 +16,15 @@ export const xfileRouter={
 
     }).onUploadComplete(async({metadata,file})=>{
         console.log("upload completed for user id",metadata.userId);
-        console.log("FILE URL : ",file.ufsUrl)
-        return {userId:metadata.userId,file:file.ufsUrl};
+        console.log("FILE URL : ",file.ufsUrl);
+        const sanitizedFile = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            key: file.key,
+            ufsUrl: file.ufsUrl, // or other relevant properties
+        };
+        return {userId:metadata.userId,file:sanitizedFile};
     }),
 } satisfies FileRouter
 
