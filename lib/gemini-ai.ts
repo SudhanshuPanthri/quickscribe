@@ -12,7 +12,7 @@ export const generatePDFSummaryfromGemini=async (pdfText:string)=>{
             contents:prompt
         });
 
-        console.log((await response).text);
+        return (await response).text;
 
     }
     catch(err:any){
