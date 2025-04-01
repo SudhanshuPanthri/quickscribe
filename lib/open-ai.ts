@@ -10,7 +10,7 @@ export async function generateSummaryfromOpenAI(pdfText:string){
             model:'gpt-3.5-turbo',
             messages:[
                 {
-                    role:'system',content:SUMMARY_SYSTEM_PROMPT
+                    role:'system',content:'You are an SEO Expert'
                 },
                 {
                     role:'user',content:`Transform this document into an engaging, easy-to-read summary with contextually relevant emojis and proper markdown formatting:\n\n${pdfText}`
@@ -20,7 +20,7 @@ export async function generateSummaryfromOpenAI(pdfText:string){
             max_tokens:1500
         });
     
-        return completion.choices[0].message.content;
+        return completion.choices[0].message?.content;
     }
     catch(err:any){
         if(err?.status===429){
