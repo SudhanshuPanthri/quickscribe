@@ -6,6 +6,7 @@ import { ArrowRight, Plus } from "lucide-react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import SummaryCard from "@/components/summaries/summary-card";
+import EmptySummary from "@/components/summaries/empty-summary";
 
 const Dashboard = async () => {
   const user = await currentUser();
@@ -55,11 +56,15 @@ const Dashboard = async () => {
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:px-0">
-            {summaries.map((summary, index) => (
-              <SummaryCard summary={summary} key={index} />
-            ))}
-          </div>
+          {summaries.length === 0 ? (
+            <EmptySummary />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:px-0">
+              {summaries.map((summary, index) => (
+                <SummaryCard summary={summary} key={index} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </main>

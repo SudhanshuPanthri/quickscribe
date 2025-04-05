@@ -16,21 +16,27 @@ type DeleteButtonProps = {
   summaryId: string;
 };
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { deleteSummaryAction } from "@/actions/summary-action";
 import { toast } from "sonner";
+import { start } from "repl";
 
 const DeleteButton = ({ summaryId }: DeleteButtonProps) => {
   const [open, setOpen] = useState(false);
 
+  //this is used to transition the UI meaning we can make it as a non blocking transition which will not interfere with the main thread while waiting for delete to happen
+  const [isPending, startTransition] = useTransition();
+
   const handleDelete = async () => {
-    const result = await deleteSummaryAction({ summaryId });
-    if (!result.success) {
-      toast.error("Failed to delete summary");
-    } else {
-      toast.success("Summary deleted successfully");
-    }
-    setOpen(false);
+    startTransition(async () => {
+      const result = await deleteSummaryAction({ summaryId });
+      if (!result.success) {
+        toast.error("Failed to delete summary");
+      } else {
+        toast.success("Summary deleted successfully");
+      }
+      setOpen(false);
+    });
   };
 
   return (
@@ -65,7 +71,7 @@ const DeleteButton = ({ summaryId }: DeleteButtonProps) => {
             className="bg-gray-900 hover:bg-gray-600"
             onClick={handleDelete}
           >
-            Delete
+            {isPending ? "Deleting..." : "Delete"}
           </Button>
         </DialogFooter>
       </DialogContent>

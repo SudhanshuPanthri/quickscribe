@@ -79,7 +79,7 @@ const UploadForm = () => {
         let storeResult: any;
         toast.info("Saving PDF, Hang tight! We are saving your summary");
         if (data.summary) {
-          await storePDFSummaryAction({
+          storeResult = await storePDFSummaryAction({
             fileUrl: resp[0].serverData.file.ufsUrl,
             summary: data.summary,
             title: data.title,
@@ -89,12 +89,11 @@ const UploadForm = () => {
           toast.success("PDF Summary generated successfully!");
         }
         formRef.current?.reset();
-        // router.push(`/summaries/${storeResult.data.id}`);
-        router.push("/dashboard");
+        router.push(`/summaries/${storeResult.data.id}`);
       }
     } catch (err: any) {
       setIsLoading(false);
-      console.log("ERROR OCCURED");
+      console.log("ERROR OCCURED", err);
       formRef.current?.reset();
     } finally {
       setIsLoading(false);
