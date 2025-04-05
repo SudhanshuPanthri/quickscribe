@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FileTextIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
+import { formatFileNameAsTitle } from "@/utils/format-utils";
 
 type SummaryHeaderProps = {
   fileUrl: string;
@@ -17,7 +18,7 @@ const SummaryHeader = ({ fileUrl, title, createdAt }: SummaryHeaderProps) => {
       <FileTextIcon className="w-6 h-6 sm:w-8 sm:h-8 text-rose-400 mt-1" />
       <div className="flex-1 min-w-0">
         <h3 className="text-base xl:text-lg font-semibold text-gray-900 truncate w-4/5">
-          {title}
+          {title || formatFileNameAsTitle(fileUrl)}
         </h3>
         <p className="text-sm text-gray-500">
           {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
@@ -47,7 +48,7 @@ const SummaryCard = ({ summary }: { summary: any }) => {
     <div>
       <Card className="relative h-full ">
         <div className="absolute top-2 right-2">
-          <DeleteButton />
+          <DeleteButton summaryId={summary.id} />
         </div>
         <Link href={`summaries/${summary.id}`} className="block p-4 sm:p-6">
           <div className="flex flex-col gap-3 sm:gap-4">
