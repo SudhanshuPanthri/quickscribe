@@ -6,3 +6,26 @@ export async function getSummaries(userId: string) {
     await sql`SELECT * FROM pdf_summaries WHERE user_id=${userId} ORDER BY created_at DESC`;
   return summaries;
 }
+
+export async function getSummary(id: string) {
+  try {
+    const sql = await getDb();
+    const [summary] = await sql`SELECT 
+    id,
+    user_id,
+    title,
+    original_file_url,
+    summary_text,
+    status,
+    created_at,
+    updated_at,
+    file_name,
+    LENGTH(summary_text) - LENGTH(REPLACE(summary_text, ' ', '')) + 1 AS word_count
+    FROM pdf_summaries WHERE id=${id}
+    `;
+    return summary;
+  } catch (err) {
+    console.error("Error fetching summary: ", err);
+    return null;
+  }
+}
