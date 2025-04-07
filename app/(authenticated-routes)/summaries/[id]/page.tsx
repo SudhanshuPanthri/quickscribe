@@ -15,15 +15,29 @@ const SummaryPage = async (props: { params: Promise<{ id: string }> }) => {
     notFound();
   }
 
+  const readingTime = Math.ceil((summary.word_count || 0) / 200);
+
   return (
     <div className="relative isolate min-h-screen bg-linear-to-b from-rose-50/40 to-white">
       <BgGradient className="from-rose-400 via-rose-300 to-orage-200" />
       <div className="container mx-auto flex flex-col gap-4">
         <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-12 lg:py-24">
           <div className="flex flex-col">
-            <SummaryHeader title={summary.title} />
+            <SummaryHeader
+              title={summary.title}
+              createdAt={summary.created_at}
+              readingTime={readingTime}
+            />
           </div>
-          {summary.file_name && <SourceInfo fileName={summary.file_name} />}
+          {summary.file_name && (
+            <SourceInfo
+              fileName={summary.file_name}
+              originalFileUrl={summary.original_file_url}
+              title={summary.title}
+              summaryText={summary.summary_text}
+              createdAt={summary.created_at}
+            />
+          )}
           <div className="relative mt-4 sm:mt-8 lg:mt-16">
             <div className="relative mt-4 sm:p-6 lg:p-8 bg-white/80 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-xl border border-rose-100/30 transition-all duration-300 hover:shadow-2xl hover:bg-white/90 max-w-4xl mx-auto">
               <div className="absolute inset-0  bg-linear-to-br from-rose-50/50 via-orange-50/30 to-transparent opacity-50 rounded-2xl sm:rounded-3xl" />
