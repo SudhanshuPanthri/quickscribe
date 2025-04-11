@@ -27,7 +27,7 @@ type savePDFSummaryProps = {
 };
 
 export async function generatePDFSummary(
-  uploadResponse: [generatePDFSummaryProps]
+  uploadResponse: generatePDFSummaryProps
 ) {
   if (!uploadResponse) {
     return {
@@ -42,7 +42,7 @@ export async function generatePDFSummary(
       userId,
       file: { ufsUrl, name },
     },
-  } = uploadResponse[0];
+  } = uploadResponse;
   if (!ufsUrl) {
     return {
       success: false,

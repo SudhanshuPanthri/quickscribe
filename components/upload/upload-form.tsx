@@ -36,7 +36,7 @@ const UploadForm = () => {
     onUploadError: (err: any) => {
       toast.error("Error : ", err.message);
     },
-    onUploadBegin: ({ file }) => {
+    onUploadBegin: (file) => {
       console.log("Uplading Initialized...", file);
     },
   });
@@ -73,7 +73,7 @@ const UploadForm = () => {
       );
 
       //method to summarize the uploaded PDF
-      const result = await generatePDFSummary(resp);
+      const result = await generatePDFSummary(resp[0]);
       const { data = null, message = null } = result || {};
       if (data) {
         let storeResult: any;
