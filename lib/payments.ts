@@ -78,3 +78,20 @@ async function createPayment({
     console.log(err);
   }
 }
+
+export async function handleSubscriptionDeleted({
+  subscriptionId,
+  stripe,
+}: {
+  subscriptionId: string;
+  stripe: Stripe;
+}) {
+  try {
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    const sql = await getDb();
+    await sql`UPDATE users SET status='cancelled' WHERE customer_id=${subscription.customer}`;
+  } catch (err) {
+    console.log("Error deleteing subscription", err);
+    throw err;
+  }
+}
