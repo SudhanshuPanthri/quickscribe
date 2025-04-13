@@ -4,7 +4,6 @@ import NavLink from "./nav-link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { getPriceId } from "@/lib/user";
-import Link from "next/link";
 import { pricingPlans } from "@/utils/constants";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
@@ -72,7 +71,7 @@ const PlanBadge = async () => {
     <Badge
       variant={"outline"}
       className={cn(
-        "ml-2 bg-linear-to-r from-amber-100 to-amber-200 border-amber-300 hidden lg:flex flex-row items-center cursor-pointer",
+        "ml-2 bg-linear-to-r from-amber-100 to-amber-200 border-amber-300 hidden lg:flex flex-row items-center",
         !priceId && "from-red-100 to-red-200 border-red-300"
       )}
     >
@@ -82,7 +81,7 @@ const PlanBadge = async () => {
           !priceId && "text-red-600"
         )}
       />
-      {boolHavePlan ? planName : <Link href="/pricing">Buy a plan</Link>}
+      {boolHavePlan ? planName : "Buy a plan"}
     </Badge>
   );
 };
