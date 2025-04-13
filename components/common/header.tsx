@@ -1,9 +1,10 @@
 import React from "react";
-import { Crown, FileText, Link } from "lucide-react";
+import { Crown, FileText } from "lucide-react";
 import NavLink from "./nav-link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { getPriceId } from "@/lib/user";
+import Link from "next/link";
 import { pricingPlans } from "@/utils/constants";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
