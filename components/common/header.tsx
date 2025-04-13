@@ -58,13 +58,10 @@ const PlanBadge = async () => {
     priceId = await getPriceId(email);
   }
 
-  let planName = "Buy a plan";
-  let boolHavePlan = false;
+  let planName = "Free";
   const plan = pricingPlans.find((plan) => plan.priceId === priceId);
   if (plan) {
-    boolHavePlan = true;
     planName = plan.name;
-    console.log(planName);
   }
 
   return (
@@ -81,7 +78,7 @@ const PlanBadge = async () => {
           !priceId && "text-red-600"
         )}
       />
-      {boolHavePlan ? planName : "Buy a plan"}
+      {plan ? planName : "Buy a plan"}
     </Badge>
   );
 };
