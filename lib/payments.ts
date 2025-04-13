@@ -52,10 +52,11 @@ async function createOrUpdateUser({
   status,
 }: createOrUpdateUserProps) {
   try {
-    const sql = await getDb();
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
     if (user.length === 0) {
       await sql`INSERT INTO users (email,full_name,customer_id,price_id,status) VALUES (${email},${fullName},${customerId},${priceId},${status})`;
+    } else {
+      await sql` UPDATE users SET price_id=${priceId},status=${status} WHERE email=${email}`;
     }
   } catch (err) {}
 }

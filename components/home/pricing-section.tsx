@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ArrowRight } from "lucide-react";
 import { pricingPlans } from "@/utils/constants";
+import { Button } from "../ui/button";
 
 type PriceType = {
   name: string;
@@ -13,8 +16,6 @@ type PriceType = {
   priceId: string;
 };
 
-//adding free or not that needs to be decided as of now it's fine.
-
 const PricingCard = ({
   name,
   price,
@@ -22,7 +23,29 @@ const PricingCard = ({
   items,
   id,
   paymentLink,
+  priceId,
 }: PriceType) => {
+  const handleBuy = async () => {
+    try {
+      const response = await fetch("/api/stripe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ priceId }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+      if (data.sessionId) {
+        window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`;
+      } else {
+        console.error("Failed to create checkout session:", data.error);
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    }
+  };
   return (
     <div className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-300">
       <div
@@ -54,8 +77,8 @@ const PricingCard = ({
           ))}
         </div>
         <div className="space-y-2 flex justify-center w-full">
-          <Link
-            href={paymentLink}
+          <Button
+            onClick={handleBuy}
             className={cn(
               "w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-rose-800 to-rose-500 hover:from-rose-500 hover:to-rose-800 text-white border-2 py-2",
               id === "pro"
@@ -65,7 +88,7 @@ const PricingCard = ({
           >
             Buy
             <ArrowRight size={18} />
-          </Link>
+          </Button>
         </div>
       </div>
     </div>

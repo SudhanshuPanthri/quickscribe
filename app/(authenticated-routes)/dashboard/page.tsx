@@ -16,7 +16,10 @@ const Dashboard = async () => {
     return redirect("/sign-in");
   }
 
-  const { hasReachedLimit, uploadLimit } = await hasReachedUploadLimit(userId);
+  const { hasReachedLimit, uploadLimit, noPlan } = await hasReachedUploadLimit(
+    userId
+  );
+  console.log(hasReachedLimit);
   const summaries = await getSummaries(userId);
 
   return (
@@ -44,19 +47,36 @@ const Dashboard = async () => {
               </Button>
             )}
           </div>
-          {hasReachedLimit && (
+          {hasReachedLimit && !noPlan && (
             <div className="mb-6">
               <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-rose-800">
                 <p className="text-sm lg:text-base flex gap-2">
-                  {`You've reached the limit of ${uploadLimit} uploads on the Basic Plan`}
+                  {`You've reached the limit of ${uploadLimit} uploads on the Specific Plan`}
                   <Link
                     href="/#pricing"
                     className="text-rose-800 underline font-medium underline-offset-4 inline-flex items-center"
                   >
-                    Click here to upgrade to pro{" "}
+                    Click here to upgrade to pro plan{" "}
                     <ArrowRight className="h-4 w-4 inline-block" />
                   </Link>
                   for unlimited uploads
+                </p>
+              </div>
+            </div>
+          )}
+          {noPlan && (
+            <div className="mb-6">
+              <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-rose-800">
+                <p className="text-sm lg:text-base flex gap-2">
+                  {`You currently have no plan, switch to free for a trial upload`}
+                  <Link
+                    href="/#pricing"
+                    className="text-rose-800 underline font-medium underline-offset-4 inline-flex items-center"
+                  >
+                    Click here to buy a plan{" "}
+                    <ArrowRight className="h-4 w-4 inline-block" />
+                  </Link>
+                  to get started
                 </p>
               </div>
             </div>

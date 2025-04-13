@@ -1,12 +1,8 @@
 import React from "react";
-import { Crown, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import NavLink from "./nav-link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
-import { getPriceId } from "@/lib/user";
-import { pricingPlans } from "@/utils/constants";
-import { Badge } from "../ui/badge";
-import { cn } from "@/lib/utils";
+import PlanBadgeWrapper from "../header/plan-badge-wrapper";
 
 const Header = () => {
   const isLoggedIn = false;
@@ -30,7 +26,7 @@ const Header = () => {
         <SignedIn>
           <div className="flex gap-2 items-center ">
             <NavLink href="/upload">Upload a PDF</NavLink>
-            <PlanBadge />
+            <PlanBadgeWrapper />
             <SignedIn>
               <UserButton />
             </SignedIn>
@@ -45,40 +41,3 @@ const Header = () => {
 };
 
 export default Header;
-
-const PlanBadge = async () => {
-  const user = await currentUser();
-  if (!user?.id) {
-    return null;
-  }
-
-  const email = user?.emailAddresses[0]?.emailAddress;
-  let priceId: string | null = null;
-  if (email) {
-    priceId = await getPriceId(email);
-  }
-
-  let planName = "Free";
-  const plan = pricingPlans.find((plan) => plan.priceId === priceId);
-  if (plan) {
-    planName = plan.name;
-  }
-
-  return (
-    <Badge
-      variant={"outline"}
-      className={cn(
-        "ml-2 bg-linear-to-r from-amber-100 to-amber-200 border-amber-300 hidden lg:flex flex-row items-center",
-        !priceId && "from-red-100 to-red-200 border-red-300"
-      )}
-    >
-      <Crown
-        className={cn(
-          "h-3 w-3 mr-1 text-amber-600",
-          !priceId && "text-red-600"
-        )}
-      />
-      {plan ? planName : "Buy a plan"}
-    </Badge>
-  );
-};
