@@ -16,9 +16,7 @@ type PriceType = {
   paymentLink: string;
   priceId: string;
 };
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-);
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY!);
 
 const PricingCard = ({
   name,
