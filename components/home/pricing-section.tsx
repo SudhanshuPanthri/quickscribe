@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ArrowRight } from "lucide-react";
 import { pricingPlans } from "@/utils/constants";
@@ -16,15 +15,15 @@ type PriceType = {
   paymentLink: string;
   priceId: string;
 };
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY!);
-
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 const PricingCard = ({
   name,
   price,
   description,
   items,
   id,
-  paymentLink,
   priceId,
 }: PriceType) => {
   const handleBuy = async () => {
