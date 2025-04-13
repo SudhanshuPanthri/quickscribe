@@ -19,7 +19,6 @@ const Dashboard = async () => {
   const { hasReachedLimit, uploadLimit, noPlan } = await hasReachedUploadLimit(
     userId
   );
-  console.log(hasReachedLimit);
   const summaries = await getSummaries(userId);
 
   return (

@@ -26,9 +26,6 @@ export const POST = async (req: NextRequest) => {
       success_url: "https://summarize-five-psi.vercel.app/dashboard",
       cancel_url: "https://summarize-five-psi.vercel.app/#pricing",
     });
-    console.log("Stripe API Key:", process.env.STRIPE_API_KEY);
-    console.log("Stripe Session:", session);
-    console.log("YAHA PE AYA THA");
 
     return NextResponse.json({ sessionId: session.id });
   } catch (error: any) {

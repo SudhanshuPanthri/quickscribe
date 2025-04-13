@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { CheckIcon, ArrowRight } from "lucide-react";
 import { pricingPlans } from "@/utils/constants";
 import { Button } from "../ui/button";
+import { loadStripe } from "@stripe/stripe-js";
 
 type PriceType = {
   name: string;
@@ -15,6 +16,9 @@ type PriceType = {
   paymentLink: string;
   priceId: string;
 };
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 const PricingCard = ({
   name,
@@ -36,9 +40,21 @@ const PricingCard = ({
       });
 
       const data = await response.json();
-      console.log(data);
       if (data.sessionId) {
-        window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`;
+        const stripe = await stripePromise;
+
+        if (!stripe) {
+          console.error("Stripe.js failed to load.");
+          return;
+        }
+
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: data.sessionId,
+        });
+
+        if (error) {
+          console.error("Stripe Checkout redirection failed:", error.message);
+        }
       } else {
         console.error("Failed to create checkout session:", data.error);
       }

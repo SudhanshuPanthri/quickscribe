@@ -14,10 +14,7 @@ const PlanBadgeWrapper = async () => {
   let planName = "Buy a Plan";
 
   if (email) {
-    console.log("email", email);
-    console.log("user", user);
     const priceId = await getPriceId(email);
-    console.log("priceId", priceId);
     const plan = pricingPlans.find((plan) => plan.priceId === priceId);
     if (plan) {
       planName = plan.name;

@@ -5,10 +5,8 @@ import { currentUser } from "@clerk/nextjs/server";
 
 export async function getPriceId(email: string) {
   const sql = await getDb();
-  console.log("email", email);
   const plan =
     await sql`SELECT price_Id FROM users WHERE email=${email} AND status='active'`;
-  console.log(plan[0]?.price_id);
   return plan?.[0]?.price_id || null;
 }
 
