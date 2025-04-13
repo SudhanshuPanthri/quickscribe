@@ -1,5 +1,5 @@
 import React from "react";
-import { Crown, FileText } from "lucide-react";
+import { Crown, FileText, Link } from "lucide-react";
 import NavLink from "./nav-link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
@@ -59,8 +59,10 @@ const PlanBadge = async () => {
   }
 
   let planName = "Buy a plan";
+  let boolHavePlan = false;
   const plan = pricingPlans.find((plan) => plan.priceId === priceId);
   if (plan) {
+    boolHavePlan = true;
     planName = plan.name;
     console.log(planName);
   }
@@ -79,7 +81,7 @@ const PlanBadge = async () => {
           !priceId && "text-red-600"
         )}
       />
-      {planName}
+      {boolHavePlan ? planName : <Link href="/pricing">Buy a plan</Link>}
     </Badge>
   );
 };
